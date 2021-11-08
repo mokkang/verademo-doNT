@@ -63,7 +63,7 @@ pipeline {
         
         stage('Build') {
             steps {
-                bat "msbuild.exe ${workspace}\\VeraDemoNet.sln /nologo /nr:false  /p:platform=\"x64\" /p:configuration=\"release\" /p:PackageCertificateKeyFile=<path-to-certificate-file>.pfx /t:clean;restore;rebuild"
+                bat "msbuild.exe ${workspace}\\VeraDemoNet.sln /nologo /nr:false  /p:platform=\"x64\" /p:configuration=\"debug" /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /t:clean;restore;rebuild"
                 }
         }
 
