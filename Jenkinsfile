@@ -11,8 +11,8 @@ pipeline {
 
     // this is optional on Linux, if jenkins does not have access to your locally installed docker
     //tools {
-        // these match up with 'Manage Jenkins -> Global Tool Config'
-        //'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker-latest' 
+    // these match up with 'Manage Jenkins -> Global Tool Config'
+    //'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker-latest'
     //}
 
     options {
@@ -39,7 +39,7 @@ pipeline {
 
         stage ('Clean workspace') {
             steps {
-               cleanWs()
+                cleanWs()
             }
         }
 
@@ -48,23 +48,23 @@ pipeline {
                 git branch: 'master', url: 'https://${PAT-Verdemodotnet}@github.com/gilmore867/verademo-dotnet.git'
             }
         }
-       
+
         stage('Restore packages') {
             steps {
                 bat "dotnet restore ${workspace}\\VeraDemoNet.sln"
             }
         }
-        
+
         stage('Clean') {
             steps {
-                bat "msbuild.exe ${workspace}\\VeraDemoNet.sln" /nologo /nr:false /p:platform=\"x64\" /p:configuration=\"release\" /t:clean"
-                }
+                bat "msbuild.exe ${workspace}\\VeraDemoNet.sln /nologo /nr:false /p:platform=\"x64\" /p:configuration=\"release\" /t:clean;"
+            }
         }
-        
+
         stage('Build') {
             steps {
-                bat "msbuild.exe ${workspace}\\VeraDemoNet.sln /nologo /nr:false  /p:platform=\"x64\" /p:configuration=\"debug" /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /t:clean;restore;rebuild"
-                }
+                bat "msbuild.exe ${workspace}\\VeraDemoNet.sln /nologo /nr:false /p:platform=\"x64\" /p:configuration=\"debug\" /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /restore;rebuild"
+            }
         }
 
         stage ('Veracode scan') {
@@ -79,14 +79,14 @@ pipeline {
                 }
 
                 echo 'Veracode scanning'
-                withCredentials([ usernamePassword ( 
-                    credentialsId: 'veracode_login', usernameVariable: 'VERACODE_API_ID', passwordVariable: 'VERACODE_API_KEY') ]) {
-                        // fire-and-forget 
-                        veracode applicationName: "${VERACODE_APP_NAME}", criticality: 'VeryHigh', debug: true, fileNamePattern: '', pHost: '', pPassword: '', pUser: '', replacementPattern: '', sandboxName: '', scanExcludesPattern: '', scanIncludesPattern: '', scanName: "${BUILD_TAG}-${env.HOST_OS}", uploadExcludesPattern: '', uploadIncludesPattern: 'target/verademo.war', vid: "${VERACODE_API_ID}", vkey: "${VERACODE_API_KEY}"
+                withCredentials([ usernamePassword (
+                        credentialsId: 'veracode_login', usernameVariable: 'VERACODE_API_ID', passwordVariable: 'VERACODE_API_KEY') ]) {
+                    // fire-and-forget
+                    veracode applicationName: "${VERACODE_APP_NAME}", criticality: 'VeryHigh', debug: true, fileNamePattern: '', pHost: '', pPassword: '', pUser: '', replacementPattern: '', sandboxName: '', scanExcludesPattern: '', scanIncludesPattern: '', scanName: "${BUILD_TAG}-${env.HOST_OS}", uploadExcludesPattern: '', uploadIncludesPattern: 'target/verademo.war', vid: "${VERACODE_API_ID}", vkey: "${VERACODE_API_KEY}"
 
-                        // wait for scan to complete (timeout: x)
-                        //veracode applicationName: '${VERACODE_APP_NAME}'', criticality: 'VeryHigh', debug: true, timeout: 20, fileNamePattern: '', pHost: '', pPassword: '', pUser: '', replacementPattern: '', sandboxName: '', scanExcludesPattern: '', scanIncludesPattern: '', scanName: "${BUILD_TAG}", uploadExcludesPattern: '', uploadIncludesPattern: 'target/verademo.war', vid: '${VERACODE_API_ID}', vkey: '${VERACODE_API_KEY}'
-                    }      
+                    // wait for scan to complete (timeout: x)
+                    //veracode applicationName: '${VERACODE_APP_NAME}'', criticality: 'VeryHigh', debug: true, timeout: 20, fileNamePattern: '', pHost: '', pPassword: '', pUser: '', replacementPattern: '', sandboxName: '', scanExcludesPattern: '', scanIncludesPattern: '', scanName: "${BUILD_TAG}", uploadExcludesPattern: '', uploadIncludesPattern: 'target/verademo.war', vid: '${VERACODE_API_ID}', vkey: '${VERACODE_API_KEY}'
+                }
             }
         }
 
@@ -127,10 +127,10 @@ pipeline {
                 ansiColor('xterm') {
                     sh 'docker build -t verademo:${BUILD_TAG} .'
                 }
-                
+
                 // split into separate stage??
                 echo 'Deploying ...'
-        
+
             }
         }
     }
