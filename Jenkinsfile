@@ -45,7 +45,7 @@ pipeline {
 
         stage ('Git Checkout') {
             steps {
-                git branch: '<your-brach>', credentialsId: '<id-of-Jenkins-credentials>', url: '<url to your GitHub repository'
+                git branch: 'master', url: 'https://${PAT-Verdemodotnet}@github.com/gilmore867/verademo-dotnet.git'
             }
         }
 
