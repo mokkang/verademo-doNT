@@ -48,6 +48,24 @@ pipeline {
                 git branch: 'master', url: 'https://${PAT-Verdemodotnet}@github.com/gilmore867/verademo-dotnet.git'
             }
         }
+       
+        stage('Restore packages') {
+            steps {
+                bat "dotnet restore ${workspace}\\VeraDemoNet.sln"
+            }
+        }
+        
+        stage('Clean') {
+            steps {
+                bat "msbuild.exe ${workspace}\\VeraDemoNet.sln" /nologo /nr:false /p:platform=\"x64\" /p:configuration=\"release\" /t:clean"
+                }
+        }
+        
+        stage('Build') {
+            steps {
+                bat "msbuild.exe ${workspace}\\VeraDemoNet.sln /nologo /nr:false  /p:platform=\"x64\" /p:configuration=\"release\" /p:PackageCertificateKeyFile=<path-to-certificate-file>.pfx /t:clean;restore;rebuild"
+                }
+        }
 
         stage ('Veracode scan') {
             steps {
