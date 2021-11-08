@@ -43,6 +43,12 @@ pipeline {
             }
         }
 
+        stage ('Git Checkout') {
+            steps {
+                git branch: '<your-brach>', credentialsId: '<id-of-Jenkins-credentials>', url: '<url to your GitHub repository'
+            }
+        }
+
         stage ('Veracode scan') {
             steps {
                 script {
