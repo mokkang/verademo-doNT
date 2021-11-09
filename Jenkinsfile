@@ -64,7 +64,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat "msbuild.exe VeraDemoNet.sln /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=C:\\PROGRA~1\\Jenkins\\.jenkins\\workspace\\VerademoNet-Github\\ /p:DebugSymbols=true /t:build"
+                bat "msbuild.exe VeraDemoNet.sln /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=${WORKSPACE} /p:DebugSymbols=true /t:build"
             }
         }
         
