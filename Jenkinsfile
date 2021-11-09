@@ -51,7 +51,7 @@ pipeline {
 
         stage('Restore packages') {
             steps {
-                bat "dotnet restore ${workspace}\\VeraDemoNet.sln"
+                bat "nuget restore ${workspace}\\VeraDemoNet.sln"
             }
         }
 
