@@ -24,11 +24,9 @@ jobs:
     - name: Build - was dotnet build --no-restore
       run: msbuild VeraDemoNet\VeraDemoNet.csproj -t:rebuild -verbosity:diag -property:Debug=Release
 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal 
     - name: List files in the repository
       run: |
-          ls -al ${{ github.workspace }}
+          dir ${{ github.workspace }}
     - uses: actions/upload-artifact@v2 # Copy files from repository to docker container so the next uploadandscan action can access them.
       with:
           name: CodePackage
