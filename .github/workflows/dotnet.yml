@@ -27,16 +27,18 @@ jobs:
     - name: List files in the repository
       run: |
           dir ${{ github.workspace }}
-    - uses: actions/upload-artifact@v2 # Copy files from repository to docker container so the next uploadandscan action can access them.
-      with:
-          name: CodePackage
-          path: '**/*.dll' # Wildcards can be used to filter the files copied into the container. See: https://github.com/actions/upload-artifact
-
-    - uses: veracode/veracode-uploadandscan-action@master # Run the uploadandscan action. Inputs are described above.
+    - name: Veracode Upload And Scan
+      uses: veracode/veracode-uploadandscan-action@0.2.1
       with:
           appname: '${{ secrets.VERACODE_APP_NAME }}'
-          filepath: app/target/verademo.war
+          createprofile: false
+          filepath: 'verademo-dotnet.dll'
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
-          scantimeout: 60
-          createprofile: false
+#          createsandbox: 'true'
+#          sandboxname: 'SANDBOXNAME'
+#          scantimeout: 0
+#          exclude: '*.js'
+#          include: '*.war'
+#          criticality: 'VeryHigh'
+
