@@ -19,8 +19,8 @@ jobs:
         dotnet-version: 5.0.x
     - name: Restore dependencies
       run: nuget restore VeraDemoNet.sln
-    - name: Clean Build
-      run: msbuild.exe VeraDemoNet.sln /t:clean
+    - name: Clean Default Build
+      run: dotnet clean
     - name: Build
       run: dotnet build --no-restore
     - name: Test
