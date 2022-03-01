@@ -20,7 +20,7 @@ jobs:
     - name: Restore dependencies
       run: nuget restore VeraDemoNet.sln
     - name: Clean Build
-      run: msbuild VeraDemoNet.sln /t:clean
+      run: msbuild.exe VeraDemoNet.sln /t:clean
     - name: Build
       run: dotnet build --no-restore
     - name: Test
