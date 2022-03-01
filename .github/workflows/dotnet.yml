@@ -22,7 +22,7 @@ jobs:
     - name: Clean Default Build
       run: msbuild VeraDemoNet.sln /t:clean
     - name: Build - was dotnet build --no-restore
-      run: msbuild VeraDemoNet\VeraDemoNet.csproj -t:rebuild -verbosity:diag -property:Debug=Release
+      run: msbuild.exe VeraDemoNet.sln /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=./.. /p:DebugSymbols=true /t:build
 
     - name: List files in the repository
       run: |
@@ -32,7 +32,7 @@ jobs:
       with:
           appname: '${{ secrets.VERACODE_APP_NAME }}'
           createprofile: false
-          filepath: 'verademo-dotnet.dll'
+          filepath: 'VeraDemoNet.zip'
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
 #          createsandbox: 'true'
