@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: windows-2019
+    runs-on: windows-2016
 
     steps:
     - name: Add msbuild to PATH
@@ -19,7 +19,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: |
-         3.1.*
+         4.6.*
          5.0.*
     - name: Restore dependencies
       run: nuget restore VeraDemoNet.sln
