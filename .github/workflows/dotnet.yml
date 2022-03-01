@@ -25,7 +25,7 @@ jobs:
     - name: Clean Default Build
       run: msbuild VeraDemoNet.sln /t:clean
     - name: Build - was dotnet build --no-restore
-      run: msbuild VeraDemoNet.sln /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DebugSymbols=true /t:build
+      run: msbuild VeraDemoNet\VeraDemoNet.csproj -t:rebuild -verbosity:diag -property:Debug=Release
 
     - name: Test
       run: dotnet test --no-build --verbosity normal 
@@ -35,7 +35,7 @@ jobs:
     - uses: actions/upload-artifact@v2 # Copy files from repository to docker container so the next uploadandscan action can access them.
       with:
           name: CodePackage
-          path: '**/*.zip' # Wildcards can be used to filter the files copied into the container. See: https://github.com/actions/upload-artifact
+          path: '**/*.dll' # Wildcards can be used to filter the files copied into the container. See: https://github.com/actions/upload-artifact
 
     - uses: veracode/veracode-uploadandscan-action@master # Run the uploadandscan action. Inputs are described above.
       with:
