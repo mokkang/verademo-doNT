@@ -24,12 +24,16 @@ jobs:
     - name: Build - was dotnet build --no-restore
       run: msbuild.exe VeraDemoNet.sln /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=./.. /p:DebugSymbols=true /t:build
 
-    - name: List files in the repository
+    - name: List files in the repository and copy artifact
       run: |
           dir ${{ github.workspace }}
+          mkdir -p ${{ github.workspace }}/artifact
+          copy VeraDemoNet.zip ${{ github.workspace }}/artifact
  
     - name: Check out main branch
       uses: actions/checkout@v2
+      with:
+        path: ${{ github.workspace }}/artifact
     -  run: |
          echo "Downloading the latest version of the Veracode Java API"
          $versionstring = curl https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/maven-metadata.xml | findstr /r "latest";
@@ -37,5 +41,5 @@ jobs:
          curl https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/$version/vosp-api-wrappers-java-$version-dist.zip -o dist.zip
          7z e dist.zip -y
          dir D:/a/verademo-dotnet/verademo-dotnet/
-         java -jar VeracodeJavaAPI.jar -action uploadandscan -vid '${{ secrets.VERACODE_API_ID }}' -vkey '${{ secrets.VERACODE_API_KEY }}' -appname '${{ secrets.VERACODE_APP_NAME }}' -createprofile true -criticality VeryHigh -sandboxname MyDailyBuild -createsandbox true -version Verademo-dotnet-GHA -filepath 'D:/a/verademo-dotnet/verademo-dotnet/VeraDemoNet.zip' -debug
+         java -jar VeracodeJavaAPI.jar -action uploadandscan -vid '${{ secrets.VERACODE_API_ID }}' -vkey '${{ secrets.VERACODE_API_KEY }}' -appname '${{ secrets.VERACODE_APP_NAME }}' -createprofile true -criticality VeryHigh -sandboxname MyDailyBuild -createsandbox true -version Verademo-dotnet-GHA -filepath 'VeraDemoNet.zip' -debug
 
