@@ -21,7 +21,8 @@ jobs:
       run: nuget restore VeraDemoNet.sln
     - name: Clean Default Build
       run: msbuild VeraDemoNet.sln /t:clean
-    - name: Build
-      run: dotnet build --no-restore
+    - name: Build - was dotnet build --no-restore
+      run: msbuild VeraDemoNet.sln /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=./.. /p:DebugSymbols=true /t:build
+
     - name: Test
       run: dotnet test --no-build --verbosity normal
