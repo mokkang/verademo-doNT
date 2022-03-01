@@ -8,10 +8,8 @@ name: Veracode-SAST
       - master
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-         os: [windows-2016, ubuntu-latest]
+    runs-on: windows-2016
+ 
     steps:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
