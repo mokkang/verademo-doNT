@@ -36,5 +36,5 @@ jobs:
          $version  = $versionstring.Trim() -replace '<latest>','' -replace '</latest>','';
          curl https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/$version/vosp-api-wrappers-java-$version-dist.zip -o dist.zip
          7z e dist.zip -y
-         java -jar VeracodeJavaAPI.jar -action uploadandscan -vid '${{ secrets.VERACODE_API_ID }}' -vkey '${{ secrets.VERACODE_API_KEY }}' -appname '${{ secrets.VERACODE_APP_NAME }}' -criticality VeryHigh -version Verademo-$(Build.BuildId) -filepath './..VeraDemoNet.zip'
+         java -jar VeracodeJavaAPI.jar -action uploadandscan -vid '${{ secrets.VERACODE_API_ID }}' -vkey '${{ secrets.VERACODE_API_KEY }}' -appname '${{ secrets.VERACODE_APP_NAME }}' -criticality VeryHigh -version Verademo-dotnet-GHA -filepath './..VeraDemoNet.zip'
 
