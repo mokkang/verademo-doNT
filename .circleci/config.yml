@@ -7,16 +7,13 @@ workflows:
   Verademo-dotnet:
     jobs:
       - build
-  integration-tests:
-    jobs:
-      - browser-tests
-      - ui-tests
 
 jobs:
   build:
     executor:
       name: win/default
-    working_directory: C:\Users\circleci\project\Verademo-dotnet
+      version: edge
+    working_directory: C:\Users\circleci\project\VeraDemoNet 
     steps:
       - checkout:
           path: C:\Users\circleci\project
@@ -24,17 +21,33 @@ jobs:
           keys:
             - dotnet-packages-v1-{{ checksum "VeraDemoNet.csproj" }}
       - run:
-          name: "Install project dependencies"
-          command: dotnet.exe restore
+          name: "Find the csproj file"
+          command: pwd; dir 
+      - run:
+          name: "Install project dependencies was dotnet.exe restore"
+          command: nuget.exe restore C:\Users\circleci\project\VeraDemoNet.sln -Verbosity Detailed
       - save_cache:
           paths:
-            - C:\Users\circleci\project\verademo-dotnet\.nuget\packages
+            - C:\Users\circleci\project\
+            - C:\Users\circleci\project\VeraDemoNet\
           key: dotnet-packages-v1-{{ checksum "VeraDemoNet.csproj" }}
       - run:
           name: "Run Build step"
-          command: dotnet.exe publish -c Release -r win10-x64
+          command: msbuild /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DebugSymbols=true
       - run:
-          name: "Test the executable"
-          command: .\bin\Release\netcoreapp2.1\win10-x64\publish\VeraDemoNet.dll
+          name: "Copy Artifact to Project Directory"
+          command: cp C:/Users/circleci/project/VeraDemoNet/obj/Debug/Package/VeraDemoNet.zip C:/Users/circleci/project/
       - store_artifacts:
-          path: .\bin\Release\netcoreapp2.1\win10-x64\publish\VeraDemoNet.dll
+          path: C:/Users/circleci/project/VeraDemoNet/obj/Debug/Package/VeraDemoNet.zip
+      - run:
+         name: "Download Veracode Upload and Scan Plugin"
+         command: curl https://tools.veracode.com/integrations/API-Wrappers/C%23/bin/VeracodeC%23API.zip -o C:\Users\circleci\project\veracodeapi.zip
+      - run:
+         name: "Unzip Upload and Scan .zip file to working directory"
+         command: Expand-Archive C:\Users\circleci\project\veracodeapi.zip -DestinationPath C:\Users\circleci\project\
+      - run:
+         name: "Upload Project Artifact to Veracode"
+         command: C:\Users\circleci\project\VeracodeC#API.exe -vid $vid -vkey $vkey -action uploadandscan -filepath C:\Users\circleci\project\VeraDemoNet.zip
+      - run:
+         name: "Veracode SCA Scan Agent"
+         command: Set-ExecutionPolicy AllSigned -Scope Process -Force; $ProgressPreference = "silentlyContinue"; iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1')); srcclr scan C:\Users\circleci\project\
