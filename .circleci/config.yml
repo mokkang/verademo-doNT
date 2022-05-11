@@ -44,10 +44,17 @@ jobs:
          command: curl https://tools.veracode.com/integrations/API-Wrappers/C%23/bin/VeracodeC%23API.zip -o C:\Users\circleci\project\veracodeapi.zip
       - run:
          name: "Unzip Upload and Scan .zip file to working directory"
-         command: Expand-Archive C:\Users\circleci\project\veracodeapi.zip -DestinationPath C:\Users\circleci\project\
+         command: Expand-Archive C:\Users\circleci\project\veracodeapi.zip -DestinationPath C:\Users\circleci\project\ 
       - run:
-         name: "Upload Project Artifact to Veracode"
-         command: C:\Users\circleci\project\VeracodeC#API.exe -vid $env:VERACODE_API_ID -vkey $env:VERACODE_API_KEY -action uploadandscan -appname Verademo-dotnet -version verademo-dotnet-circleci -filepath C:\Users\circleci\project\VeraDemoNet.zip
+         name: "Upload Project Artifact to Veracode - Policy Scan"
+         command: C:\Users\circleci\project\VeracodeC#API.exe
+              -vid $env:VERACODE_API_ID 
+              -vkey $env:VERACODE_API_KEY 
+              -action uploadandscan 
+              -appname Verademo-dotnet
+              -createprofile false
+              -version verademo-dotnet-circleci-$CIRCLE_BUILD_NUM
+              -filepath C:\Users\circleci\project\VeraDemoNet.zip
       - run:
          name: "Veracode SCA Scan Agent"
          command: Set-ExecutionPolicy AllSigned -Scope Process -Force; $ProgressPreference = "silentlyContinue"; iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1')); srcclr scan C:\Users\circleci\project\''
