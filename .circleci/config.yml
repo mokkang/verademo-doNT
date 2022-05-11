@@ -46,6 +46,9 @@ jobs:
          name: "Unzip Upload and Scan .zip file to working directory"
          command: Expand-Archive C:\Users\circleci\project\veracodeapi.zip -DestinationPath C:\Users\circleci\project\
       - run:
+         command: |
+          echo $TEST # this env var must be set within the project
+      - run:
          name: "Upload Project Artifact to Veracode"
          command: C:\Users\circleci\project\VeracodeC#API.exe -vid {$VID} -vkey {$VKEY} -action uploadandscan -appname Verademo-dotnet -version verademo-dotnet-circleci -filepath C:\Users\circleci\project\VeraDemoNet.zip
       - run:
