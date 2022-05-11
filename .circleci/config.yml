@@ -53,7 +53,7 @@ jobs:
               -action uploadandscan 
               -appname Verademo-dotnet
               -createprofile false
-              -version verademo-dotnet-circleci-$CIRCLE_BUILD_NUM
+              -version verademo-dotnet-circleci
               -filepath C:\Users\circleci\project\VeraDemoNet.zip
       - run:
          name: "Veracode SCA Scan Agent"
