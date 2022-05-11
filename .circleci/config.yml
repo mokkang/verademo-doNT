@@ -51,7 +51,7 @@ jobs:
           echo $TEST # this env var must be set within the project
       - run:
          name: "Upload Project Artifact to Veracode"
-         command: C:\Users\circleci\project\VeracodeC#API.exe -vid {$VID} -vkey {$VKEY} -action uploadandscan -appname Verademo-dotnet -version verademo-dotnet-circleci -filepath C:\Users\circleci\project\VeraDemoNet.zip
+         command: C:\Users\circleci\project\VeracodeC#API.exe -vid {env:$VID} -vkey {env:$VKEY} -action uploadandscan -appname Verademo-dotnet -version verademo-dotnet-circleci -filepath C:\Users\circleci\project\VeraDemoNet.zip
       - run:
          name: "Veracode SCA Scan Agent"
          command: Set-ExecutionPolicy AllSigned -Scope Process -Force; $ProgressPreference = "silentlyContinue"; iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1')); srcclr scan C:\Users\circleci\project\''
