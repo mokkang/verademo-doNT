@@ -45,7 +45,7 @@ jobs:
       with:
           appname: '${{ secrets.VERACODE_APP_NAME }}'
           createprofile: false
-          filepath: 'VeraDemoNet.zip'
+          filepath: '${{ github.workspace }}/artifact/VeraDemoNet.zip'
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
 #          createsandbox: 'true'
