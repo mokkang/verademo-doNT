@@ -31,6 +31,7 @@ jobs:
           dir ${{ github.workspace }}
           mkdir -p ${{ github.workspace }}/artifact
           copy VeraDemoNet.zip ${{ github.workspace }}/artifact
+          dir ${{ github.workspace }}/artifact
 
 
   security:
@@ -45,7 +46,7 @@ jobs:
       with:
           appname: '${{ secrets.VERACODE_APP_NAME }}'
           createprofile: false
-          filepath: '/home/runner/work/verademo-dotnet/verademo-dotnet'
+          filepath: '..'
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
 #          createsandbox: 'true'
