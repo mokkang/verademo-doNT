@@ -33,7 +33,6 @@ jobs:
           copy VeraDemoNet.zip ${{ github.workspace }}/artifact
           dir ${{ github.workspace }}/artifact
 
-
   security:
     runs-on: ubuntu-latest
     steps:
