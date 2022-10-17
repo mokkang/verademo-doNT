@@ -45,13 +45,13 @@ jobs:
       uses: veracode/veracode-uploadandscan-action@0.2.1
       with:
           appname: dotdotdot
-          createprofile: false
+          createprofile: true
           filepath: '../workspace/artifact/'
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
-#          createsandbox: 'true'
-#          sandboxname: 'SANDBOXNAME'
-#          scantimeout: 0
+          createsandbox: 'true'
+          sandboxname: 'SANDBOXNAME'
+          scantimeout: 60
 #          exclude: '*.js'
 #          include: '*.war'
 #          criticality: 'VeryHigh'
