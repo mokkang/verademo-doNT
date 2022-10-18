@@ -39,7 +39,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: '${{ github.workspace }}/artifact'
-      - name: Pipeline Scanner
       - name: Veracode Pipeline-Scan
       # You may pin to the exact commit or the version.
       # uses: veracode/Veracode-pipeline-scan-action@c94abab5dc83cccc825c05120b746835fc6f673a
