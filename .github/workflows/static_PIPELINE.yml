@@ -49,7 +49,7 @@ jobs:
         # vkey
           vkey: '${{secrets.VERACODE_API_KEY}}'
           # Filename of the packaged application to upload and scan.
-          file: '../workspace/artifact/VeraDemoNet.zip'
+          file: 'VeraDemoNet.zip'
           # GITHUB_TOKEN or a repo scoped PAT.
           token: '{{ github.token }} '
   #         Fail the pipeline job if the scan finds flaws of the specified CWEs. Enter a comma-separated list of CWE IDs.
