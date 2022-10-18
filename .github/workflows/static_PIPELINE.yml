@@ -41,8 +41,8 @@ jobs:
           path: '${{ github.workspace }}/artifact'
       - name: Veracode Pipeline-Scan
       # You may pin to the exact commit or the version.
-      # uses: veracode/Veracode-pipeline-scan-action@c94abab5dc83cccc825c05120b746835fc6f673a
-        uses: veracode/Veracode-pipeline-scan-action@pipeline-scan-beta-v0.0.4
+        uses: veracode/Veracode-pipeline-scan-action@c94abab5dc83cccc825c05120b746835fc6f673a
+      #  uses: veracode/Veracode-pipeline-scan-action@pipeline-scan-beta-v0.0.4
         with:
         # vid
           vid: '${{secrets.VERACODE_API_ID}}' 
@@ -100,7 +100,7 @@ jobs:
      #     create_baseline_from: # optional
           # Fail the build upon findings. Takes true or false
      #     fail_build: # optional     
-          allow_failure: true
+      #    allow_failure: true
 
       - name: Veracode Upload And Scan
         uses: veracode/veracode-uploadandscan-action@0.2.1
