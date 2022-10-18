@@ -49,7 +49,7 @@ jobs:
         # vkey
           vkey: '${{secrets.VERACODE_API_KEY}}'
           # Filename of the packaged application to upload and scan.
-          file: 'VeraDemoNet.zip'
+          file: 'D:/a/verademo-doNT/verademo-doNT/VeraDemoNet.zip'
           # GITHUB_TOKEN or a repo scoped PAT.
           token: '{{ github.token }} '
   #         Fail the pipeline job if the scan finds flaws of the specified CWEs. Enter a comma-separated list of CWE IDs.
@@ -101,7 +101,13 @@ jobs:
           # Fail the build upon findings. Takes true or false
      #     fail_build: # optional     
       #    allow_failure: true
-
+  Veracode-Policy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main branch
+        uses: actions/checkout@v2
+        with:
+          path: '${{ github.workspace }}/artifact'
       - name: Veracode Upload And Scan
         uses: veracode/veracode-uploadandscan-action@0.2.1
         with:
