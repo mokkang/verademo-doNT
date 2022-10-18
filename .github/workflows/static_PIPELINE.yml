@@ -1,11 +1,12 @@
 name: Veracode-SAST
-'on':
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  'on':
+    - master
+#  push:
+#    branches:
+#      - master
+#  pull_request:
+#    branches:
+#      - master
 jobs:
   build:
     runs-on: windows-2019
@@ -49,7 +50,7 @@ jobs:
         # vkey
           vkey: '${{secrets.VERACODE_API_KEY}}'
           # Filename of the packaged application to upload and scan.
-          file: 'D:/a/verademo-doNT/verademo-doNT/VeraDemoNet.zip'
+          file: '${{ github.workspace }}/VeraDemoNet.zip'
           # GITHUB_TOKEN or a repo scoped PAT.
           token: '{{ github.token }} '
   #         Fail the pipeline job if the scan finds flaws of the specified CWEs. Enter a comma-separated list of CWE IDs.
